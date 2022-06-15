@@ -29,7 +29,7 @@ const Activate = () => {
     },[activation_token])
 
     return (
-        <section classNameName="sign-in-page">
+        <section className="sign-in-page">
             <div id="container-inside">
                 <div id="circle-small"></div>
                 <div id="circle-medium"></div>
@@ -37,11 +37,11 @@ const Activate = () => {
                 <div id="circle-xlarge"></div>
                 <div id="circle-xxlarge"></div>
             </div>
-            <div classNameName="container p-0">
-                <div classNameName="row no-gutters">
-                    <div classNameName="col-md-6 text-center pt-5">
-                        <div classNameName="sign-in-detail text-white">
-                            <div classNameName="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
+            <div className="container p-0">
+                <div className="row no-gutters">
+                    <div className="col-md-6 text-center pt-5">
+                        <div className="sign-in-detail text-white">
+                            <div className="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
 
                             </div>
                         </div>
