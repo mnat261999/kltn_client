@@ -13,6 +13,9 @@ const HeaderUser = () => {
     const home = async() => {
         window.location.href = '/';
     }
+    const profile = async() => {
+        window.location.href = '/profile';
+    }
     const handleLogout = async () => {
         try {
             const res = await axios.post('api/user/logout')
@@ -46,18 +49,9 @@ const HeaderUser = () => {
                             <img src="images/logo.png" className="img-fluid" alt="" />
                             <span>SocialV</span>
                         </Link>
-                        <div className="iq-menu-bt align-self-center">
-                            <div className="wrapper-menu">
-                                <div className="main-circle"><i className="ri-menu-line"></i></div>
-                            </div>
-                        </div>
                     </div>
                     <div className="iq-search-bar">
                         <SearchUser/>
-{/*                         <form action="#" className="searchbox">
-                            <input type="text" className="text search-input" placeholder="Type here to search..." />
-                            <Link className="search-link" to=''><i className="ri-search-line"></i></Link>
-                        </form> */}
                     </div>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
                         <i className="ri-menu-3-line"></i>
@@ -65,7 +59,7 @@ const HeaderUser = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto navbar-list">
                             <li>
-                                <Link to='' className="iq-waves-effect d-flex align-items-center">
+                                <Link onClick={profile} className="iq-waves-effect d-flex align-items-center">
                                     <img src={Object.keys(auth.user.avatar).length > 0 ? auth.user.avatar.url : "https://social-pet-bucket.s3.amazonaws.com/avatar_default.png"} className="img-fluid rounded-circle mr-3" alt="user" />
                                     <div className="caption">
                                         <h6 className="mb-0 line-height">{auth.user.fullname}</h6>
