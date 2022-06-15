@@ -1,8 +1,15 @@
 import React from 'react'
+import Profile from './Profile'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div id="content-page" className="content-page">
+      <div className="container">
+        <div className="row">
+          <Profile />
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -1,0 +1,5 @@
+
+export const PROFILE_TYPES = {
+    LOADING: 'LOADING_PROFILE',
+    GET_USER: 'GET_USER',
+}
