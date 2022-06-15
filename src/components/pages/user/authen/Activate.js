@@ -29,7 +29,7 @@ const Activate = () => {
     },[activation_token])
 
     return (
-        <section className="sign-in-page">
+        <section classNameName="sign-in-page">
             <div id="container-inside">
                 <div id="circle-small"></div>
                 <div id="circle-medium"></div>
@@ -37,22 +37,22 @@ const Activate = () => {
                 <div id="circle-xlarge"></div>
                 <div id="circle-xxlarge"></div>
             </div>
-            <div className="container p-0">
-                <div className="row no-gutters">
-                    <div className="col-md-6 text-center pt-5">
-                        <div className="sign-in-detail text-white">
-                            <div className="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
+            <div classNameName="container p-0">
+                <div classNameName="row no-gutters">
+                    <div classNameName="col-md-6 text-center pt-5">
+                        <div classNameName="sign-in-detail text-white">
+                            <div classNameName="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-white pt-5">
-                    <div class="sign-in-from">
+                    <div className="col-md-6 bg-white pt-5">
+                    <div className="sign-in-from">
                         <img src="https://social-pet-bucket.s3.amazonaws.com/mail.png" width="80" alt=""/>
-                        <h1 class="mt-3 mb-0">{(success && "Success !") || (!success && "Fail !")}</h1>
+                        <h1 className="mt-3 mb-0">{(success && "Success !") || (!success && "Fail !")}</h1>
                         <p>{msg}</p>
-                        <div class="d-inline-block w-100">
-                            <Link class="btn btn-primary mt-3" to='/'>Back to Login</Link>
+                        <div className="d-inline-block w-100">
+                            <Link className="btn btn-primary mt-3" to='/'>Back to Login</Link>
                         </div>
                     </div>
                 </div>

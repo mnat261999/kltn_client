@@ -47,3 +47,28 @@ export const register = (data) => async (dispatch) =>{
         console.log('register',err.response.data);
     }
 }
+
+export const refreshToken = () => async (dispatch) => {
+    try {
+        const firstLogin = localStorage.getItem("firstLogin")
+
+        if(firstLogin){
+            const res = await axios.post('api/user/refresh_token')
+
+            console.log('refreshToken', res)
+    
+            dispatch({
+                type: GLOBALTYPES.AUTH,
+                payload: {
+                    token: res.data.data.access_token,
+                    user: res.data.data.user,
+                    isAdmin: res.data.data.user.role === "admin" ? true : false,
+                    isLogin: true
+                }
+            })
+        }
+    } catch (err) {
+        showErrMsg('error', err.response.data.msg)
+        console.log('refreshToken',err.response.data);
+    }
+}
