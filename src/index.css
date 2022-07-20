@@ -1,0 +1,17 @@
+.user-item svg {
+    vertical-align: baseline !important;
+}
+
+.users .border {
+    border: 1.5px solid #E1E1F0 !important;
+}
+
+.users {
+    position:absolute;
+    width: 100%;
+    min-width: 250px;
+    background: #fafafa;
+    max-height: calc(100vh - 150px);
+    overflow: auto;
+    margin-top: 3px;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { showErrMsg } from '../../../../utils/Notification'
 import axios from 'axios'
@@ -21,6 +21,7 @@ const Activate = () => {
                 } catch (err) {
                     setSuccess(false)
                     setMsg(err.response.data.msg)
+                    console.log(err.response.data.msg)
                     console.log('activation_token',err.response.data)
                 }
             }
@@ -29,36 +30,33 @@ const Activate = () => {
     },[activation_token])
 
     return (
-        <section className="sign-in-page">
-            <div id="container-inside">
-                <div id="circle-small"></div>
-                <div id="circle-medium"></div>
-                <div id="circle-large"></div>
-                <div id="circle-xlarge"></div>
-                <div id="circle-xxlarge"></div>
-            </div>
-            <div className="container p-0">
-                <div className="row no-gutters">
-                    <div className="col-md-6 text-center pt-5">
-                        <div className="sign-in-detail text-white">
-                            <div className="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
+        <Fragment>
+        <div className="main-wrap">
+            <div className="nav-header bg-transparent shadow-none border-0">
+                <div className="nav-top w-100">
+                    <Link to="/"><i className="feather-zap text-success display1-size me-2 ms-0"></i><span className="d-inline-block fredoka-font ls-3 fw-600 text-current font-xxl logo-text mb-0">Sociala. </span> </Link>
+                    <button className="nav-menu me-0 ms-auto"></button>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-6 bg-white pt-5">
-                    <div className="sign-in-from">
-                        <img src="https://social-pet-bucket.s3.amazonaws.com/mail.png" width="80" alt=""/>
-                        <h1 className="mt-3 mb-0">{(success && "Success !") || (!success && "Fail !")}</h1>
-                        <p>{msg}</p>
-                        <div className="d-inline-block w-100">
-                            <Link className="btn btn-primary mt-3" to='/'>Back to Login</Link>
-                        </div>
-                    </div>
-                </div>
+                    <Link to="/" className="header-btn d-none d-lg-block bg-dark fw-500 text-white font-xsss p-3 ms-auto w100 text-center lh-20 rounded-xl">Login</Link>
+                    <Link to="/register" className="header-btn d-none d-lg-block bg-current fw-500 text-white font-xsss p-3 ms-2 w100 text-center lh-20 rounded-xl">Register</Link>
                 </div>
             </div>
-        </section>
+
+
+            <div className="row">
+                <div className="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat"
+                    style={{ backgroundImage: `url("https://via.placeholder.com/800x950.png")` }}></div>
+                <div className="col-xl-7 vh-100 align-items-center d-flex bg-white rounded-3 overflow-hidden">
+                    <div className="card shadow-none border-0 ms-auto me-auto login-card">
+                        <div className="card-body rounded-0 text-left">
+                            <h2 className="fw-700 display1-size display2-md-size mb-4">{(success && "Success !") || (!success && "Fail !")} {msg}</h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </Fragment>
     )
 }
 

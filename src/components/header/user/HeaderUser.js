@@ -1,364 +1,159 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { showErrMsg, showSuccessMsg } from '../../../utils/Notification'
 import SearchUser from './SearchUser'
+import { Link , NavLink } from 'react-router-dom';
+
 
 const HeaderUser = () => {
     const auth = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
-    const home = async() => {
+    const home = async () => {
         window.location.href = '/';
     }
-    const profile = async() => {
+    const profile = async () => {
         window.location.href = '/profile';
     }
     const handleLogout = async () => {
         try {
             const res = await axios.post('api/user/logout')
             localStorage.removeItem('firstLogin')
-            dispatch({ 
-                type: GLOBALTYPES.AUTH, 
+            dispatch({
+                type: GLOBALTYPES.AUTH,
                 payload: {
                     token: '',
                     user: '',
                     isAdmin: '',
                     isLogin: ''
-                } 
+                }
             })
 
-            showSuccessMsg('success',res.data.msg)
-    
+            showSuccessMsg('success', res.data.msg)
+
             window.location.href = "/";
         } catch (err) {
             window.location.href = "/";
             showErrMsg('error', err.response.data.msg)
-            console.log('handleLogout',err.response.data);
+            console.log('handleLogout', err.response.data);
         }
     }
 
+    const [isOpen, setOpen] = useState(false)
+    const [isActive, setActive] = useState(false)
+    const [isNoti, setNoti] = useState(false)
+
+    
+
+    const toggleOpen = () => setOpen(!isOpen);
+    const toggleActive = () => setActive(!isActive );
+    const toggleisNoti = () => setNoti(!isNoti);
+
+    const navClass = `${isOpen ? " nav-active" : ""}`;
+    const buttonClass = `${isOpen ? " active" : ""}`;
+    const searchClass = `${isActive ? " show" : ""}`;
+    const notiClass = `${isNoti ? " show" : ""}`;
+
     return (
-        <div className="iq-top-navbar">
-            <div className="iq-navbar-custom">
-                <nav className="navbar navbar-expand-lg navbar-light p-0">
-                    <div className="iq-navbar-logo d-flex justify-content-between">
-                        <Link onClick={home}>
-                            <img src="images/logo.png" className="img-fluid" alt="" />
-                            <span>SocialV</span>
-                        </Link>
-                    </div>
-                    <div className="iq-search-bar">
-                        <SearchUser/>
-                    </div>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
-                        <i className="ri-menu-3-line"></i>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ml-auto navbar-list">
-                            <li>
-                                <Link onClick={profile} className="iq-waves-effect d-flex align-items-center">
-                                    <img src={Object.keys(auth.user.avatar).length > 0 ? auth.user.avatar.url : "https://social-pet-bucket.s3.amazonaws.com/avatar_default.png"} className="img-fluid rounded-circle mr-3" alt="user" />
-                                    <div className="caption">
-                                        <h6 className="mb-0 line-height">{auth.user.fullname}</h6>
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link onClick={home} className="iq-waves-effect d-flex align-items-center">
-                                    <i className="ri-home-line"></i>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <a className="search-toggle iq-waves-effect" href="#"><i className="ri-group-line"></i></a>
-                                <div className="iq-sub-dropdown iq-sub-dropdown-large">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">Friend Request<small className="badge  badge-light float-right pt-1">4</small></h5>
-                                            </div>
-                                            <div className="iq-friend-request">
-                                                <div className="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="">
-                                                            <img className="avatar-40 rounded" src="images/user/01.jpg" alt="" />
-                                                        </div>
-                                                        <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Jaques Amole</h6>
-                                                            <p className="mb-0">40  friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="d-flex align-items-center">
-                                                        <a href="javascript:void();" className="mr-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();" className="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="iq-friend-request">
-                                                <div className="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="">
-                                                            <img className="avatar-40 rounded" src="images/user/02.jpg" alt="" />
-                                                        </div>
-                                                        <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Lucy Tania</h6>
-                                                            <p className="mb-0">12  friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="d-flex align-items-center">
-                                                        <a href="javascript:void();" className="mr-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();" className="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="iq-friend-request">
-                                                <div className="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="">
-                                                            <img className="avatar-40 rounded" src="images/user/03.jpg" alt="" />
-                                                        </div>
-                                                        <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Manny Petty</h6>
-                                                            <p className="mb-0">3  friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="d-flex align-items-center">
-                                                        <a href="javascript:void();" className="mr-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();" className="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="iq-friend-request">
-                                                <div className="iq-sub-card iq-sub-card-big d-flex align-items-center justify-content-between" >
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="">
-                                                            <img className="avatar-40 rounded" src="images/user/04.jpg" alt="" />
-                                                        </div>
-                                                        <div className="media-body ml-3">
-                                                            <h6 className="mb-0 ">Marsha Mello</h6>
-                                                            <p className="mb-0">15  friends</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className="d-flex align-items-center">
-                                                        <a href="javascript:void();" className="mr-3 btn btn-primary rounded">Confirm</a>
-                                                        <a href="javascript:void();" className="mr-3 btn btn-secondary rounded">Delete Request</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="text-center">
-                                                <a href="#" className="mr-3 btn text-primary">View More Request</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="nav-item">
-                                <a href="#" className="search-toggle iq-waves-effect">
-                                    <div id="lottie-beil">
-                                        <i className="las la-bell"></i>
-                                    </div>
-                                    {/* <span className="bg-danger dots"></span> */}
-                                </a>
-                                <div className="iq-sub-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">All Notifications<small className="badge  badge-light float-right pt-1">4</small></h5>
-                                            </div>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/01.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Emma Watson Bni</h6>
-                                                        <small className="float-right font-size-12">Just Now</small>
-                                                        <p className="mb-0">95 MB</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/02.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">New customer is join</h6>
-                                                        <small className="float-right font-size-12">5 days ago</small>
-                                                        <p className="mb-0">Cyst Bni</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/03.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Two customer is left</h6>
-                                                        <small className="float-right font-size-12">2 days ago</small>
-                                                        <p className="mb-0">Cyst Bni</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/04.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">New Mail from Fenny</h6>
-                                                        <small className="float-right font-size-12">3 days ago</small>
-                                                        <p className="mb-0">Cyst Bni</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a href="#" className="search-toggle iq-waves-effect">
-                                    <div id="lottie-mail">
-                                        <i className="las la-inbox"></i>
-                                    </div>
-                                   {/*  <span className="bg-primary count-mail"></span> */}
-                                </a>
-                                <div className="iq-sub-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3">
-                                                <h5 className="mb-0 text-white">All Messages<small className="badge  badge-light float-right pt-1">5</small></h5>
-                                            </div>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/01.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Bni Emma Watson</h6>
-                                                        <small className="float-left font-size-12">13 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/02.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Lorem Ipsum Watson</h6>
-                                                        <small className="float-left font-size-12">20 Apr</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/03.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Why do we use it?</h6>
-                                                        <small className="float-left font-size-12">30 Jun</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/04.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Variations Passages</h6>
-                                                        <small className="float-left font-size-12">12 Sep</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" className="iq-sub-card" >
-                                                <div className="media align-items-center">
-                                                    <div className="">
-                                                        <img className="avatar-40 rounded" src="images/user/05.jpg" alt="" />
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Lorem Ipsum generators</h6>
-                                                        <small className="float-left font-size-12">5 Dec</small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul className="navbar-list">
-                            <li>
-                                <Link to = '' className="search-toggle iq-waves-effect d-flex align-items-center">
-                                    <i className="ri-arrow-down-s-fill"></i>
-                                </Link>
-                                <div className="iq-sub-dropdown iq-user-dropdown">
-                                    <div className="iq-card shadow-none m-0">
-                                        <div className="iq-card-body p-0 ">
-                                            <div className="bg-primary p-3 line-height">
-                                                <h5 className="mb-0 text-white line-height">Hello Bni Cyst</h5>
-                                                <span className="text-white font-size-12">Available</span>
-                                            </div>
-                                            <a href="profile.html" className="iq-sub-card iq-bg-primary-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-primary">
-                                                        <i className="ri-file-user-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">My Profile</h6>
-                                                        <p className="mb-0 font-size-12">View personal profile details.</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="profile-edit.html" className="iq-sub-card iq-bg-warning-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-warning">
-                                                        <i className="ri-profile-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Edit Profile</h6>
-                                                        <p className="mb-0 font-size-12">Modify your personal details.</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="account-setting.html" className="iq-sub-card iq-bg-info-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-info">
-                                                        <i className="ri-account-box-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Account settings</h6>
-                                                        <p className="mb-0 font-size-12">Manage your account parameters.</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="privacy-setting.html" className="iq-sub-card iq-bg-danger-hover">
-                                                <div className="media align-items-center">
-                                                    <div className="rounded iq-card-icon iq-bg-danger">
-                                                        <i className="ri-lock-line"></i>
-                                                    </div>
-                                                    <div className="media-body ml-3">
-                                                        <h6 className="mb-0 ">Privacy Settings</h6>
-                                                        <p className="mb-0 font-size-12">Control your privacy parameters.</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <div className="d-inline-block w-100 text-center p-3">
-                                                <Link onClick={handleLogout} className="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i className="ri-login-box-line ml-2"></i></Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+        <div className="nav-header bg-white shadow-xs border-0">
+            <div className="nav-top">
+                <Link to="/"><i className="feather-zap text-success display2-size me-3 ms-0"></i><span className="d-inline-block fredoka-font ls-3 fw-600 text-current font-xxl logo-text mb-0">Sociala. </span> </Link>
+                <Link to="/defaultmessage" className="mob-menu ms-auto me-2 chat-active-btn"><i className="feather-message-circle text-grey-900 font-sm btn-round-md bg-greylight"></i></Link>
+                <Link to="/defaultvideo" className="mob-menu me-2"><i className="feather-video text-grey-900 font-sm btn-round-md bg-greylight"></i></Link>
+                <span onClick={toggleActive} className="me-2 menu-search-icon mob-menu"><i className="feather-search text-grey-900 font-sm btn-round-md bg-greylight"></i></span>
+                <button onClick={toggleOpen} className={`nav-menu me-0 ms-2 ${buttonClass}`}></button>
             </div>
+
+            <SearchUser/>
+            
+            <NavLink activeClassName="active" to="/home" className="p-2 text-center ms-3 menu-icon center-menu-icon"><i className="feather-home font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 "></i></NavLink>
+            <NavLink activeClassName="active" to="/defaultstorie" className="p-2 text-center ms-0 menu-icon center-menu-icon"><i className="feather-zap font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 "></i></NavLink>
+            <NavLink activeClassName="active" to="/defaultvideo" className="p-2 text-center ms-0 menu-icon center-menu-icon"><i className="feather-video font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 "></i></NavLink>
+            <NavLink activeClassName="active" to="/defaultgroup" className="p-2 text-center ms-0 menu-icon center-menu-icon"><i className="feather-user font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 "></i></NavLink>
+            <NavLink activeClassName="active" to="/setting" className="p-2 text-center ms-0 menu-icon center-menu-icon"><i className="feather-shopping-bag font-lg bg-greylight btn-round-lg theme-dark-bg text-grey-500 "></i></NavLink>
+
+
+            <span className={`p-2 pointer text-center ms-auto menu-icon ${notiClass}`} id="dropdownMenu3" data-bs-toggle="dropdown" aria-expanded="false" onClick={toggleisNoti}><span className="dot-count bg-warning"></span><i className="feather-bell font-xl text-current"></i></span>
+            <div className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg ${notiClass}`} aria-labelledby="dropdownMenu3">
+                <h4 className="fw-700 font-xss mb-4">Notification</h4>
+                <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                    <img src="assets/images/user.png" alt="user" className="w40 position-absolute left-0" />
+                    <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Hendrix Stamp <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 3 min</span></h5>
+                    <h6 className="text-grey-500 fw-500 font-xssss lh-4">There are many variations of pass..</h6>
+                </div>
+                <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                    <img src="assets/images/user.png" alt="user" className="w40 position-absolute left-0" />
+                    <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Goria Coast <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 2 min</span></h5>
+                    <h6 className="text-grey-500 fw-500 font-xssss lh-4">Mobile Apps UI Designer is require..</h6>
+                </div>
+
+                <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                    <img src="assets/images/user.png" alt="user" className="w40 position-absolute left-0" />
+                    <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Surfiya Zakir <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 1 min</span></h5>
+                    <h6 className="text-grey-500 fw-500 font-xssss lh-4">Mobile Apps UI Designer is require..</h6>
+                </div>
+                <div className="card bg-transparent-card w-100 border-0 ps-5">
+                    <img src="assets/images/user.png" alt="user" className="w40 position-absolute left-0" />
+                    <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Victor Exrixon <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 30 sec</span></h5>
+                    <h6 className="text-grey-500 fw-500 font-xssss lh-4">Mobile Apps UI Designer is require..</h6>
+                </div>
+            </div>
+            <Link to="/defaultmessage" className="p-2 text-center ms-3 menu-icon chat-active-btn"><i className="feather-message-square font-xl text-current"></i></Link>
+            <Link to="/defaultsettings" className="p-0 ms-3 menu-icon"><img src={Object.keys(auth.user.avatar).length > 0 ? auth.user.avatar.url : "https://social-pet-bucket.s3.amazonaws.com/avatar_default.png"}  alt="user" className="w40 mt--1 rounded-circle" /></Link>
+
+            <nav className={`navigation scroll-bar ${navClass}`}>
+                <div className="container ps-0 pe-0">
+                    <div className="nav-content">
+                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1 mb-2 mt-2">
+                            <div className="nav-caption fw-600 font-xssss text-grey-500"><span>New </span>Feeds</div>
+                            <ul className="mb-1 top-content">
+                                <li className="logo d-none d-xl-block d-lg-block"></li>
+                                <li><Link to="/home" className="nav-content-bttn open-font"><i className="feather-tv btn-round-md bg-blue-gradiant me-3"></i><span>Newsfeed</span></Link></li>
+                                <li><Link to="/defaultbadge" className="nav-content-bttn open-font"><i className="feather-award btn-round-md bg-red-gradiant me-3"></i><span>Badges</span></Link></li>
+                                <li><Link to="/defaultstorie" className="nav-content-bttn open-font"><i className="feather-globe btn-round-md bg-gold-gradiant me-3"></i><span>Explore Stories</span></Link></li>
+                                <li><Link to="/defaultgroup" className="nav-content-bttn open-font"><i className="feather-zap btn-round-md bg-mini-gradiant me-3"></i><span>Popular Groups</span></Link></li>
+                                <li><Link to="/userpage" className="nav-content-bttn open-font"><i className="feather-user btn-round-md bg-primary-gradiant me-3"></i><span>Author Profile </span></Link></li>
+                            </ul>
+                        </div>
+
+                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1 mb-2">
+                            <div className="nav-caption fw-600 font-xssss text-grey-500"><span>More </span>Pages</div>
+                            <ul className="mb-3">
+                                <li><Link to="/defaultemailbox" className="nav-content-bttn open-font"><i className="font-xl text-current feather-inbox me-3"></i><span>Email Box</span><span className="circle-count bg-warning mt-1">584</span></Link></li>
+                                <li><Link to="/defaulthotel" className="nav-content-bttn open-font"><i className="font-xl text-current feather-home me-3"></i><span>Near Hotel</span></Link></li>
+                                <li><Link to="/defaultevent" className="nav-content-bttn open-font"><i className="font-xl text-current feather-map-pin me-3"></i><span>Latest Event</span></Link></li>
+                                <li><Link to="/defaultlive" className="nav-content-bttn open-font"><i className="font-xl text-current feather-youtube me-3"></i><span>Live Stream</span></Link></li>
+                            </ul>
+                        </div>
+                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1">
+                            <div className="nav-caption fw-600 font-xssss text-grey-500"><span></span> Account</div>
+                            <ul className="mb-1">
+                                <li className="logo d-none d-xl-block d-lg-block"></li>
+                                <li><Link to="/defaultsettings" className="nav-content-bttn open-font h-auto pt-2 pb-2"><i className="font-sm feather-settings me-3 text-grey-500"></i><span>Settings</span></Link></li>
+                                <li><Link to="/defaultanalytics" className="nav-content-bttn open-font h-auto pt-2 pb-2"><i className="font-sm feather-pie-chart me-3 text-grey-500"></i><span>Analytics</span></Link></li>
+                                <li><Link to="/defaultmessage" className="nav-content-bttn open-font h-auto pt-2 pb-2"><i className="font-sm feather-message-square me-3 text-grey-500"></i><span>Chat</span><span className="circle-count bg-warning mt-0">23</span></Link></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div className={`app-header-search ${searchClass}`}>
+                <form className="search-form">
+                    <div className="form-group searchbox mb-0 border-0 p-1">
+                        <input type="text" className="form-control border-0" placeholder="Search..." />
+                        <i className="input-icon">
+                            <ion-icon name="search-outline" role="img" className="md hydrated" aria-label="search outline"></ion-icon>
+                        </i>
+                        <span className="ms-1 mt-1 d-inline-block close searchbox-close">
+                            <i className="ti-close font-xs" onClick={toggleActive}></i>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
         </div>
     )
 }

@@ -1,98 +1,56 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { GLOBALTYPES } from "../../../redux/actions/globalTypes";
+import { useSelector } from "react-redux";
 import axios from "axios";
+import { GlobalState } from "../../../GlobalState";
+import { showErrMsg } from "../../../utils/Notification";
+import CardUser from "./CardUser";
+
 
 const SearchUser = () => {
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([]);
+    const state = useContext(GlobalState)
+    const auth = useSelector(state => state.auth)
+    const [search, setSearch] = useState('')
+    const [listUserSearch, setListUserSearch] = state.userAPI.listUserSearch
 
-  const { auth } = useSelector((state) => state);
-  const dispatch = useDispatch();
-  const [load, setLoad] = useState(false);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if(users.length === 0) {
-      try {
-        setLoad(true);
-        const res = await axios.get("api/user/search_user", {
-          headers: { Authorization: auth.token },
-        });
-        setUsers(res.data.data);
-        setLoad(false);
-      } catch (err) {
-        dispatch({
-          type: GLOBALTYPES.ALERT,
-          payload: { error: err.response.data.msg },
-        });
-      }
-    }
-    else{
-      setSearch("");
-      setUsers([]);
-    }
-    
-    }
-    
+    useEffect(() => {
+        console.log(search.length)
+        if (search.length != 0 && auth.token) {
+            const getUserList = async () => {
+                await axios.get(`api/user/search_user?keyword=${search}`, {
+                    headers: { Authorization: auth.token },
+                }).then(res => setListUserSearch(res.data.data))
+                    .catch(err => showErrMsg("error", err.response.data.msg))
+            }
+            getUserList()
+            console.log({ listUserSearch })
+        } else if (search.length == 0 && auth.token) {
+            setListUserSearch([])
+        }
+    }, [search, auth.token, showErrMsg])
 
-  const handleClose = () => {
-    setSearch("");
-    setUsers([]);
-  };
+    return (
+        <form action="#" className="float-left header-search ms-3">
+            <div className="form-group mb-0 icon-input">
+                <i className="feather-search font-sm text-grey-400"></i>
+                <input type="text" name="search" value={search} id="search"
+                    onChange={e => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))}
+                    placeholder="Start typing to search.."
+                    className="bg-grey border-0 lh-32 pt-2 pb-2 ps-5 pe-3 font-xssss fw-500 rounded-xl w350 theme-dark-bg" />
 
-  return (
-    <form action="#" class="searchbox">
-      <input
-        type="text"
-        class="text search-input"
-        placeholder="Type here to search..."
-      />
-      <Link class="search-link" to="" onClick={handleSearch}>
-        <i class="ri-search-line"></i>
-      </Link>
-
-      {/* Khúc này là card user khi search */}
-      <div class="iq-card" style={{ position: "absolute", width: "100%" }}>
-        <div class="iq-card-body p-0">
-          <ul class="todo-task-lists m-0 p-0">
-            {users.map((user) => (
-              <Link to={`/profile/${user._id}`} onClick={handleClose}>
-                <li class="d-flex align-items-center p-3">
-                  <div class="user-img img-fluid">
-                    <img
-                      src={user.avatar.url}
-                      alt={user.avatar.key}
-                      class="rounded-circle avatar-40"
-                    />
-                  </div>
-                  <div class="media-support-info ml-3">
-                    <h6 class="d-inline-block">
-                      {user.username} - {user.fullname}
-                    </h6>
-                  </div>
-                </li>
-              </Link>
-            ))}
-
-            {/* <li class="d-flex align-items-center p-3">
-              <div class="user-img img-fluid">
-                <img
-                  src="images/user/02.jpg"
-                  alt="story-img"
-                  class="rounded-circle avatar-40"
-                />
-              </div>
-              <div class="media-support-info ml-3">
-                <h6 class="d-inline-block">IOS App - Redesign the contact</h6>
-              </div>
-            </li> */}
-          </ul>
-        </div>
-      </div>
-    </form>
-  );
+                <div className="users">
+                    {
+                        search.length != 0 && listUserSearch.map(user => (
+                            <Link key={user._id} to={`profile/${user._id}`}>
+                                <CardUser user={user} border="border" />
+                            </Link>
+                        ))
+                    }
+                </div>
+            </div>
+        </form>
+    );
 };
 
 export default SearchUser;

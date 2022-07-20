@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { register } from '../../../../redux/actions/authAction'
@@ -33,81 +33,74 @@ const Register = () => {
 	}
 
 	return (
-		<section className="sign-in-page">
-			<div id="container-inside">
-				<div id="circle-small"></div>
-				<div id="circle-medium"></div>
-				<div id="circle-large"></div>
-				<div id="circle-xlarge"></div>
-				<div id="circle-xxlarge"></div>
-			</div>
-			<div className="container p-0">
-				<div className="row no-gutters">
-					<div className="col-md-6 text-center pt-5">
-						<div className="sign-in-detail text-white">
-							<div className="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true" data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1" data-margin="0">
+		<Fragment>
+			<div className="main-wrap">
+				<div className="nav-header bg-transparent shadow-none border-0">
+					<div className="nav-top w-100">
+						<Link to="/"><i className="feather-zap text-success display1-size me-2 ms-0"></i><span className="d-inline-block fredoka-font ls-3 fw-600 text-current font-xxl logo-text mb-0">Sociala. </span> </Link>
+						<button className="nav-menu me-0 ms-auto"></button>
+
+						<Link to="/" className="header-btn d-none d-lg-block bg-dark fw-500 text-white font-xsss p-3 ms-auto w100 text-center lh-20 rounded-xl">Login</Link>
+						<Link to="/register" className="header-btn d-none d-lg-block bg-current fw-500 text-white font-xsss p-3 ms-2 w100 text-center lh-20 rounded-xl">Register</Link>
+					</div>
+				</div>
+
+
+				<div className="row">
+					<div className="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat"
+						style={{ backgroundImage: `url("https://via.placeholder.com/800x950.png")` }}></div>
+					<div className="col-xl-7 vh-100 align-items-center d-flex bg-white rounded-3 overflow-hidden">
+						<div className="card shadow-none border-0 ms-auto me-auto login-card">
+							<div className="card-body rounded-0 text-left">
+								<h2 className="fw-700 display1-size display2-md-size mb-4">Create <br />your account</h2>
+								<form onSubmit={handleSubmit}>
+
+									<div className="form-group icon-input mb-3">
+										<i className="font-sm ti-user text-grey-500 pe-0"></i>
+										<input type="text" className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Full Name" onChange={handleChangeInput} id="fullname" value={fullname} name="fullname" />
+									</div>
+									<div className="form-group icon-input mb-3">
+										<i className="font-sm ti-user text-grey-500 pe-0"></i>
+										<input type="text" className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Username" onChange={handleChangeInput} id="username" value={username} name="username" />
+									</div>
+									<div className="form-group icon-input mb-3">
+										<i className="font-sm ti-email text-grey-500 pe-0"></i>
+										<input type="text" className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Email Address" onChange={handleChangeInput} id="email" value={email} name="email" />
+									</div>
+									<div className="form-group icon-input mb-3">
+										<input type="Password" className="style2-input ps-5 form-control text-grey-900 font-xss ls-3" placeholder="Password" onChange={handleChangeInput} id="password" value={password} name="password" />
+										<i className="font-sm ti-lock text-grey-500 pe-0"></i>
+									</div>
+									<div className="form-group icon-input mb-3">
+										<input type="Password" className="style2-input ps-5 form-control text-grey-900 font-xss ls-3" placeholder="Confirm Password" onChange={handleChangeInput} id="cf_password" value={cf_password} name="cf_password" />
+										<i className="font-sm ti-lock text-grey-500 pe-0"></i>
+									</div>
+									<div className="form-group icon-input mb-3">
+										<input type="date" className="style2-input ps-5 form-control text-grey-900 font-xss ls-3" onChange={handleChangeInput} id="dob" value={dob} name="dob" placeholder="Dob" />
+										<i className="font-sm ti-calendar text-grey-500 pe-0"></i>
+									</div>
+									<div className="form-group icon-input mb-3">
+										<select style={{ lineHeight: '50px' }} className="style2-input ps-5 form-control text-grey-900 font-xss ls-3" onChange={handleChangeInput} name="gender" value={gender} id="gender" placeholder="Gender" >
+											<option value="female">Female</option>
+											<option value="male">Male</option>
+											<option value="orther">Orther</option>
+										</select>
+										<i className="font-sm ti-user text-grey-500 pe-0"></i>
+									</div>
+
+									<div className="col-sm-12 p-0 text-left">
+										<div className="form-group mb-1"><button type='submit' className="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Register</button></div>
+										<h6 className="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Already have account <Link to="/" className="fw-700 ms-1">Login</Link></h6>
+									</div>
+								</form>
 
 							</div>
 						</div>
 					</div>
-					<div className="col-md-6 bg-white pt-5">
-						<div className="sign-in-from">
-							<h1 className="mb-0">Sign Up</h1>
-							<p>Enter your email address and password to access admin panel.</p>
-							<form className="mt-4" onSubmit={handleSubmit}>
-								<div className="form-group">
-									<label for="exampleInputEmail1">Your Full Name</label>
-									<input type="text" className="form-control mb-0" onChange={handleChangeInput} id="fullname" value={fullname} name="fullname" placeholder="Your Full Name" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputEmail1">Your User Name</label>
-									<input type="text" className="form-control mb-0" onChange={handleChangeInput} id="username" value={username} name="username" placeholder="Your User Name" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputEmail2">Email address</label>
-									<input type="email" className="form-control mb-0" onChange={handleChangeInput} id="email" value={email} name="email" placeholder="Enter email" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputPassword1">Password</label>
-									<input type="password" className="form-control mb-0" onChange={handleChangeInput} id="password" value={password} name="password" placeholder="Password" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputPassword1">Confirm Password</label>
-									<input type="password" className="form-control mb-0" onChange={handleChangeInput} id="cf_password" value={cf_password} name="cf_password" placeholder="Confirm Password" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputDOB">Date of Birth</label>
-									<input type="date" className="form-control mb-0" onChange={handleChangeInput} id="dob" value={dob} name="dob" placeholder="Dob" />
-								</div>
-								<div className="form-group">
-									<label for="exampleInputDOB">Gender</label>
-									<select className="form-control mb-0" onChange={handleChangeInput} name="gender" value={gender} id="gender" placeholder="Dob">
-										<option value="female">Female</option>
-										<option value="male">Male</option>
-										<option value="orther">Orther</option>
-									</select>
-								</div>
-								<div className="d-inline-block w-100">
-									<div className="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-										<select type="checkbox" className="custom-control-input" id="customCheck1" />
-										<label className="custom-control-label" for="customCheck1">I accept <Link>Terms and Conditions</Link></label>
-									</div>
-									<button type="submit" className="btn btn-primary float-right">Sign Up</button>
-								</div>
-								<div className="sign-info">
-									<span className="dark-color d-inline-block line-height-2">Already Have Account ? <Link to='/'>Log In</Link></span>
-									<ul className="iq-social-media">
-										<li><Link><i className="ri-facebook-box-line"></i></Link></li>
-										<li><Link><i className="ri-twitter-line"></i></Link></li>
-										<li><Link><i className="ri-instagram-line"></i></Link></li>
-									</ul>
-								</div>
-							</form>
-						</div>
-					</div>
+
 				</div>
 			</div>
-		</section>
+		</Fragment>
 	)
 }
 
