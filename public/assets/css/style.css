@@ -12700,7 +12700,7 @@ strong,
   -o-transition: width 0.25s;
   transition: width 0.25s;
   padding-top: calc(90px + 6px);
-  z-index: -1;
+  z-index: 1;
 }
 .navigation.menu-active {
   width: 90px;

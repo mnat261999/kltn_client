@@ -1,4 +1,6 @@
 export const GLOBALTYPES = {
     AUTH: "AUTH",
-    ALERT: "ALERT"
+    ALERT: "ALERT",
+    LOADING_PROFILE: "LOADING_PROFILE",
+    GET_USER: "GET_USER"
 }

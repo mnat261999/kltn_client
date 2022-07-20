@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { DataProvider, GlobalState } from './GlobalState';
 import Pages from './components/pages/Page'
@@ -15,30 +15,30 @@ function App() {
 
 	const auth = useSelector(state => state.auth)
 
-    const {isLogin, isAdmin} = auth
+	const { isLogin, isAdmin } = auth
 
 	useEffect(() => {
 		dispatch(refreshToken())
 	}, [dispatch])
 
-	const userPage = () =>{
+	const userPage = () => {
 		return <>
-		{!isLogin && <Pages />}
-		{isLogin && 
-		<div class="wrapper">
-			<HeaderUser/>
-			<Pages />
-		</div>
-		}
+			{!isLogin && <Pages />}
+			{isLogin &&
+				<div class="wrapper">
+					<HeaderUser />
+					<Pages />
+				</div>
+			}
 		</>
-	  }
+	}
 
 	return (
 		<DataProvider>
 			<Router>
 				<div className='App'>
 					<div className="main">
-						{isAdmin && ""|| userPage()}
+						{isAdmin && "" || userPage()}
 					</div>
 				</div>
 			</Router>

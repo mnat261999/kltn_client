@@ -1,18 +1,19 @@
-import { PROFILE_TYPES } from "../actions/profileAction";
+import { GLOBALTYPES } from "../actions/globalTypes"
 
 const initialState = {
     loading: false,
-    users: []
+    users: [],
+    posts: []
 }
 
 const profileReducer = (state = initialState, action) =>{
     switch (action.type) {
-        case PROFILE_TYPES.LOADING:
+        case GLOBALTYPES.LOADING_PROFILE:
             return {
                 ...state,
                 loading: action.payload
             };
-        case PROFILE_TYPES.GET_USER:
+        case GLOBALTYPES.GET_USER:
             return {
                 ...state,
                 users: [...state.users, action.payload.user]
