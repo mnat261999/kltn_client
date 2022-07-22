@@ -18,13 +18,20 @@ const SearchUser = () => {
         console.log(search.length)
         if (search.length != 0 && auth.token) {
             const getUserList = async () => {
-                await axios.get(`api/user/search_user?keyword=${search}`, {
-                    headers: { Authorization: auth.token },
-                }).then(res => setListUserSearch(res.data.data))
-                    .catch(err => showErrMsg("error", err.response.data.msg))
+                try {
+                    const res = await axios.get(`api/user/search_user?keyword=${search}`, {
+                        headers: { Authorization: auth.token },
+                    })
+
+                    console.log(res.data.data)
+
+                    setListUserSearch(res.data.data)
+                } catch (err) {
+                    showErrMsg("error", err.response.data.msg);
+                    console.log("getUserList", err.response.data);
+                }
             }
             getUserList()
-            console.log({ listUserSearch })
         } else if (search.length == 0 && auth.token) {
             setListUserSearch([])
         }

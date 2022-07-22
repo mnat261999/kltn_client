@@ -15,3 +15,7 @@
     overflow: auto;
     margin-top: 3px;
 }
+
+.ant-tabs-top > .ant-tabs-nav::before{
+    border-bottom: none !important;
+}
