@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { register } from '../../../../redux/actions/authAction'
-import { showErrMsg } from '../../../../utils/Notification'
-import { isEmail, isEmpty, isMatch, isPass } from '../../../../utils/Validation'
+import { register } from '../redux/actions/authAction'
+
 
 
 
@@ -40,7 +39,7 @@ const Register = () => {
 						<Link to="/"><i className="feather-zap text-success display1-size me-2 ms-0"></i><span className="d-inline-block fredoka-font ls-3 fw-600 text-current font-xxl logo-text mb-0">Sociala. </span> </Link>
 						<button className="nav-menu me-0 ms-auto"></button>
 
-						<Link to="/" className="header-btn d-none d-lg-block bg-dark fw-500 text-white font-xsss p-3 ms-auto w100 text-center lh-20 rounded-xl">Login</Link>
+						<Link to="/" className="header-btn d-none d-lg-block bg-dark fw-500 text-white font-xsss p-3 ms-auto w100 text-center lh-20 rounded-xl">Register</Link>
 						<Link to="/register" className="header-btn d-none d-lg-block bg-current fw-500 text-white font-xsss p-3 ms-2 w100 text-center lh-20 rounded-xl">Register</Link>
 					</div>
 				</div>

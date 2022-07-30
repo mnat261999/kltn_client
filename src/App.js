@@ -1,48 +1,41 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { DataProvider, GlobalState } from './GlobalState';
-import Pages from './components/pages/Page'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Header from './components/header/Header';
+import PageRender from './customRouter/PageRender';
+import PrivateRouter from './customRouter/PrivateRouter';
+import Activate from './pages/activate';
+import Home from './pages/home';
+import Login from './pages/login';
+import Register from './pages/register';
 import { refreshToken } from './redux/actions/authAction';
-import HeaderUser from './components/header/user/HeaderUser';
 
 
 
 function App() {
-	const state = useContext(GlobalState)
+	const {auth} = useSelector(state => state)
 
 	const dispatch = useDispatch()
 
-	const auth = useSelector(state => state.auth)
-
-	const { isLogin, isAdmin } = auth
-
 	useEffect(() => {
 		dispatch(refreshToken())
-	}, [dispatch])
-
-	const userPage = () => {
-		return <>
-			{!isLogin && <Pages />}
-			{isLogin &&
-				<div class="wrapper">
-					<HeaderUser />
-					<Pages />
-				</div>
-			}
-		</>
-	}
-
+	},[dispatch])
+	
 	return (
-		<DataProvider>
-			<Router>
-				<div className='App'>
-					<div className="main">
-						{isAdmin && "" || userPage()}
-					</div>
+		<Router>
+			{/* <input type="checkbox" id="theme" /> */}
+			<Route exact path="/" component={auth.token ? "" : Login}/>
+			<Route exact path="/register" component={Register} />
+			<Route path="/activate/:activation_token" exact component={Activate} />
+			<div className="App">
+				<div className="main">
+					{auth.token && <Header/>}
+				    <Route exact path="/" component={auth.token ? Home : ""}/>
+					<PrivateRouter exact path="/:page" component={PageRender}/>
+					<PrivateRouter exact path="/:page/:id" component={PageRender}/>
 				</div>
-			</Router>
-		</DataProvider>
+			</div>
+		</Router>
 	);
 }
 

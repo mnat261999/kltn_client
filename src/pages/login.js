@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { GlobalState } from '../../../../GlobalState'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../../../redux/actions/authAction'
-import { showErrMsg } from '../../../../utils/Notification'
+import { login } from '../redux/actions/authAction'
 
 const initialState = {
     email: '',
@@ -36,7 +34,7 @@ const Login = () => {
                         <button className="nav-menu me-0 ms-auto"></button>
 
                         <Link to="/" className="header-btn d-none d-lg-block bg-dark fw-500 text-white font-xsss p-3 ms-auto w100 text-center lh-20 rounded-xl">Login</Link>
-                        <Link to="/register" className="header-btn d-none d-lg-block bg-current fw-500 text-white font-xsss p-3 ms-2 w100 text-center lh-20 rounded-xl">Register</Link>
+						<Link to="/register" className="header-btn d-none d-lg-block bg-current fw-500 text-white font-xsss p-3 ms-2 w100 text-center lh-20 rounded-xl">Register</Link>
                     </div>
                 </div>
                 <div className="row">
