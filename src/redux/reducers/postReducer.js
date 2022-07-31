@@ -1,16 +1,28 @@
-import { GLOBALTYPES } from "../actions/globalTypes"
+import { POST_TYPES } from '../actions/postAction'
+import { EditData, DeleteData, GLOBALTYPES } from '../actions/globalTypes'
 
 const initialState = {
-    post: []
+    loading: false,
+    posts: [],
+    result: 0,
+    page: 2
 }
 
-const postReducer = (state = initialState, action)=> {
-    switch(action.type){
+const postReducer = (state = initialState, action) => {
+    console.log(state)
+    switch (action.type){
         case GLOBALTYPES.CREATE_POST:
-            return{
+            return {
                 ...state,
-                posts:[...state.posts, action.payload]
+                posts: [...state.posts, action.payload],
+                result: action.result
             };
+        case GLOBALTYPES.GET_POSTS:
+            return {
+                ...state,
+                posts: action.payload.data,
+                result: action.payload.total
+            }
         default:
             return state;
     }
