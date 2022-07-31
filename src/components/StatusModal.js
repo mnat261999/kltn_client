@@ -3,6 +3,8 @@ import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from '../redux/actions/globalTypes';
 import axios from 'axios';
+import { showErrMsg } from '../utils/Notification';
+import { createPost } from '../redux/actions/postAction';
 
 const StatusModal = () => {
     const { auth, status, theme } = useSelector(state => state)
@@ -41,6 +43,18 @@ const StatusModal = () => {
         setMedias(newArr)
     }
 
+    const handleSubmit = async (e) =>{
+        if(medias.length == 0 && content.length == 0){
+            return showErrMsg("error", 'Please add content or media')
+        }
+
+        dispatch(createPost({content,medias,auth}))
+        dispatch({ type: GLOBALTYPES.STATUS, payload: false })
+
+        setVisible(status)
+        setMedias([])
+    }
+
 
     return (
         <div className="status_modal">
@@ -49,7 +63,7 @@ const StatusModal = () => {
                 onCancel={() => dispatch({ type: GLOBALTYPES.STATUS, payload: false })}
                 footer={[
                     <div className="status_footer">
-                        <button className="btn btn-secondary w-100" type="submit" style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }} /* onClick={handleSubmit} */>
+                        <button className="btn btn-secondary w-100" type="submit" style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }} onClick={handleSubmit}>
                             Post
                         </button>
                     </div>
