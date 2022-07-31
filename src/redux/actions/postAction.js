@@ -4,6 +4,7 @@ import { showErrMsg, showSuccessMsg } from "../../utils/Notification";
 
 export const createPost = ({content,medias,auth}) => async dispatch => {
     let media = []
+    console.log(content)
 
     try {
         dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } })
@@ -33,6 +34,21 @@ export const createPost = ({content,medias,auth}) => async dispatch => {
 		});
 		showErrMsg("error", err.response.data.msg); */
         console.log("createPost", err);
+    }
+}
+
+export const updatePost = ({content,medias,auth,mediaIdDeleteList,status}) => async dispatch => {
+    try {
+        dispatch({ type: GLOBALTYPES.LOADING_POST, payload: { loading: true } })
+        const res = await axios.patch(`api/post/${status._id}`,{content:content,medias:medias,mediaIdDeleteList:mediaIdDeleteList},{
+            headers: { Authorization: auth.token },
+        })
+        dispatch(getPosts(auth.token))
+        dispatch({ type: GLOBALTYPES.LOADING_POST, payload: { success: res.data.msg } })
+        showSuccessMsg("success", ' Update success!');
+    } catch (err) {
+        showErrMsg("error", err.response.data.msg);
+        console.log("updatePost", err);
     }
 }
 

@@ -1,11 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const CardFooter = () => {
+const CardFooter = ({ post }) => {
+    console.log(post)
     return (
         <div className="card-body d-flex p-0">
             <div className="emoji-bttn pointer d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2">
                 <i className="feather-heart text-white bg-red-gradiant me-2 btn-round-xs font-xss" />
-                2.8K Like
+                {post.likes.length == 0 ? "" : `${post.likes.length} Like`}
             </div>
             <div className="emoji-wrap pointer ">
                 <ul className="emojis list-inline mb-0">
@@ -35,13 +37,13 @@ const CardFooter = () => {
                     </li>
                 </ul>
             </div>
-            <a
-                href="/defaultvideo"
+            <Link
+                to={`/post/${post._id}`}
                 className="d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss"
             >
                 <i className="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg" />
                 <span className="d-none-xss">22 Comment</span>
-            </a>
+            </Link>
             <div
                 className="pointer ms-auto d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss "
                 id="dropdownMenu32"

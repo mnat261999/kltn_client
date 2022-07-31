@@ -3,35 +3,40 @@ import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import 'antd/dist/antd.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 
 const CardHeader = ({ post }) => {
     const { auth } = useSelector(state => state)
+    const dispatch = useDispatch()
+    const handleEditPost = () => {
+        dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } })
+    }
     const menu = (
         <Menu
             items={[
                 {
                     key: '1',
                     label: (
-                        <Link target="_blank" rel="noopener noreferrer" >
+                        <span target="_blank" rel="noopener noreferrer" onClick={handleEditPost}>
                             Edit Post
-                        </Link>
+                        </span>
                     ),
                 },
                 {
                     key: '2',
                     label: (
-                        <Link target="_blank" rel="noopener noreferrer" >
+                        <span target="_blank" rel="noopener noreferrer" >
                             Delete Post
-                        </Link>
+                        </span>
                     ),
                 },
                 {
                     key: '3',
                     label: (
-                        <Link target="_blank" rel="noopener noreferrer" >
+                        <span target="_blank" rel="noopener noreferrer" >
                             Copy Link
-                        </Link>
+                        </span>
                     ),
                 }
             ]}
@@ -44,23 +49,30 @@ const CardHeader = ({ post }) => {
                 {
                     key: '1',
                     label: (
-                        <Link target="_blank" rel="noopener noreferrer">
+                        <span target="_blank" rel="noopener noreferrer">
                             Report Post
-                        </Link>
+                        </span>
                     ),
                 },
                 {
                     key: '2',
                     label: (
-                        <Link target="_blank" rel="noopener noreferrer" >
+                        <span target="_blank" rel="noopener noreferrer" >
+                            Save Post
+                        </span>
+                    ),
+                },
+                {
+                    key: '3',
+                    label: (
+                        <span target="_blank" rel="noopener noreferrer" >
                             Copy Link
-                        </Link>
+                        </span>
                     ),
                 }
             ]}
         />
     );
-    console.log(post)
     return (
         <div className="card-body p-0 d-flex">
             <figure className="avatar me-3">

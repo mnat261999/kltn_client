@@ -38,8 +38,8 @@ function App() {
 					{auth.token && <Header/>}
 					{status && <StatusModal />}
 				    <Route exact path="/" component={auth.token ? Home : ""}/>
-					<PrivateRouter exact path="/:page" component={PageRender}/>
-					<PrivateRouter exact path="/:page/:id" component={PageRender}/>
+					<Route exact path="/:page" component={PageRender}/>
+					<Route exact path="/:page/:id" component={PageRender}/>
 				</div>
 			</div>
 		</Router>

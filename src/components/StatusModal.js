@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from '../redux/actions/globalTypes';
 import axios from 'axios';
 import { showErrMsg } from '../utils/Notification';
-import { createPost } from '../redux/actions/postAction';
+import { createPost, updatePost } from '../redux/actions/postAction';
 
 const StatusModal = () => {
     const { auth, status, theme } = useSelector(state => state)
@@ -12,6 +12,16 @@ const StatusModal = () => {
     const dispatch = useDispatch()
     const [content, setContent] = useState('')
     const [medias, setMedias] = useState([])
+    const [mediaIdDeleteList, setMediaIdDeleteList] = useState([])
+    const [mediasAfter, setMediasAfter] = useState([])
+
+    useEffect(() => {
+      if(status.onEdit){
+        setContent(status.content)
+        setMedias(status.medias)
+      }
+    }, [status])
+    
     const handleChangeImages = async e => {
         const files = [...e.target.files]
         let newMedias = []
@@ -32,35 +42,57 @@ const StatusModal = () => {
         })
 
         res.data.data.forEach(m => newMedias.push(m))
-        console.log(newMedias)
         setMedias([...medias, ...newMedias])
-        console.log(medias)
+
+        if(status.onEdit == true){
+            setMediasAfter([...mediasAfter, ...newMedias])
+        }
     }
 
-    const deleteImages = (index) => {
+    const deleteImages = (index,id) => {
+        console.log(id)
         const newArr = [...medias]
         newArr.splice(index, 1)
         setMedias(newArr)
+        setMediaIdDeleteList([...mediaIdDeleteList,id])
     }
 
     const handleSubmit = async (e) =>{
-        if(medias.length == 0 && content.length == 0){
-            return showErrMsg("error", 'Please add content or media')
+        if(status.onEdit == true){
+            if(medias.length == 0 && content.length == 0){
+                return showErrMsg("error", 'Please add content or media')
+            }
+            dispatch(updatePost({content,medias,mediaIdDeleteList,auth,status}))
+            dispatch({ type: GLOBALTYPES.STATUS, payload: false })
+            setVisible(status)
+            setMedias([])
+        }else{
+            if(medias.length == 0 && content.length == 0){
+                return showErrMsg("error", 'Please add content or media')
+            }
+    
+            dispatch(createPost({content,medias,auth}))
+            dispatch({ type: GLOBALTYPES.STATUS, payload: false })
+    
+            setVisible(status)
+            setMedias([])
+            setMediasAfter([])
         }
-
-        dispatch(createPost({content,medias,auth}))
-        dispatch({ type: GLOBALTYPES.STATUS, payload: false })
-
-        setVisible(status)
-        setMedias([])
     }
 
+    const handleCancel = () => {
+        dispatch({ type: GLOBALTYPES.STATUS, payload: false })
+        setMediaIdDeleteList([])
+        setMediasAfter([])
+    }
+
+    console.log(mediaIdDeleteList)
 
     return (
         <div className="status_modal">
             <Modal title="Create Post"
                 visible={visible}
-                onCancel={() => dispatch({ type: GLOBALTYPES.STATUS, payload: false })}
+                onCancel={() => handleCancel()}
                 footer={[
                     <div className="status_footer">
                         <button className="btn btn-secondary w-100" type="submit" style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }} onClick={handleSubmit}>
@@ -79,7 +111,7 @@ const StatusModal = () => {
 
                         <div className="show_images">
                             {
-                                medias.map((m, index) => (
+                                status.onEdit == false ? medias.map((m, index) => (
                                     (m.typeMedia == 'image/jpeg' || m.typeMedia == 'image/png') &&
                                     <div key={index} id="file_img">
                                         <img src={m.media.url} alt="images" class="img-thumbnail" style={{ filter: `${theme ? 'invert(1)' : 'invert(0)'}` }} />
@@ -90,7 +122,20 @@ const StatusModal = () => {
                                         <video controls src={m.media.url} alt="images" class="img-thumbnail" style={{ filter: `${theme ? 'invert(1)' : 'invert(0)'}` }} />
                                         <span onClick={() => deleteImages(index)}>&times; </span>
                                     </div>
+                                )):
+                                medias.map((m, index) => (
+                                    (m.typeMedia == 'image/jpeg' || m.typeMedia == 'image/png') &&
+                                    <div key={m._id} id="file_img">
+                                        <img src={m.media.url} alt="images" class="img-thumbnail" style={{ filter: `${theme ? 'invert(1)' : 'invert(0)'}` }} />
+                                        <span onClick={() => deleteImages(index,m._id)} >&times; </span>
+                                    </div>
+                                    || m.typeMedia == 'video/mp4' &&
+                                    <div key={m._id} id="file_img">
+                                        <video controls src={m.media.url} alt="images" class="img-thumbnail" style={{ filter: `${theme ? 'invert(1)' : 'invert(0)'}` }} />
+                                        <span onClick={() => deleteImages(index)}>&times; </span>
+                                    </div>
                                 ))
+
                             }
                         </div>
 
