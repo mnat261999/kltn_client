@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/header/Header';
+import StatusModal from './components/StatusModal';
 import PageRender from './customRouter/PageRender';
 import PrivateRouter from './customRouter/PrivateRouter';
 import Activate from './pages/activate';
@@ -13,7 +14,7 @@ import { refreshToken } from './redux/actions/authAction';
 
 
 function App() {
-	const {auth} = useSelector(state => state)
+	const {auth, status} = useSelector(state => state)
 
 	const dispatch = useDispatch()
 
@@ -30,6 +31,7 @@ function App() {
 			<div className="App">
 				<div className="main">
 					{auth.token && <Header/>}
+					{status && <StatusModal />}
 				    <Route exact path="/" component={auth.token ? Home : ""}/>
 					<PrivateRouter exact path="/:page" component={PageRender}/>
 					<PrivateRouter exact path="/:page/:id" component={PageRender}/>
