@@ -14,7 +14,6 @@ const Search = () => {
 
 
     useEffect(() => {
-        console.log(search.length)
         if (search.length != 0 && auth.token) {
             const getUserList = async () => {
                 try {

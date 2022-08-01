@@ -3,5 +3,6 @@ export const GLOBALTYPES = {
     NOTIFY: "NOTIFY",
     ALERT: "ALERT",
     LOADING_PROFILE: "LOADING_PROFILE",
-    GET_USER: "GET_USER"
-}
+    GET_USER: "GET_USER",
+    
+ }

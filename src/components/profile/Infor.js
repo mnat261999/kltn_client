@@ -6,6 +6,7 @@ import { Avatar } from 'antd';
 import AvatarCustom from '../AvatarCustom'
 import moment from 'moment';
 import FollowBtn from '../FollowBtn'
+import EditProfile from './EditProfile'
 
 const Infor = () => {
 	const { id } = useParams()
@@ -13,7 +14,7 @@ const Infor = () => {
 	const dispatch = useDispatch()
 	const profile = useSelector(state => state.profile)
 	const [check, setCheck] = useState(false)
-
+	const [onEdit, setOnEdit] = useState(false)
 	useEffect(() => {
 		dispatch(getProfileUsers({ id, auth }))
 		if (id === auth.user._id) {
@@ -27,12 +28,12 @@ const Infor = () => {
     
 	  console.log(Object.keys(profile.user).length) */
 
-	if (Object.keys(profile.user).length === 0) return null;
+//	if (Object.keys(profile.user).length === 0) return null;
 
 	return (
 		<div className="info">
 			<div className="info_container" key={profile.user._id}>
-				{Object.keys(profile.user.avatar).length > 0 ? <AvatarCustom src={profile.user.avatar.url} size="supper-avatar" /> :  <Avatar size={150}>USER</Avatar>}
+				{/* {Object.keys(profile.user.avatar).length > 0 ? <AvatarCustom src={profile.user.avatar.url} size="supper-avatar" /> :  <Avatar size={150}>USER</Avatar>} */}
 				
 
 				<div className="info_content">
@@ -41,7 +42,7 @@ const Infor = () => {
 						{
 							profile.user._id === auth.user._id
 								? <button className="btn btn-outline-info"
-									/* onClick={() => setOnEdit(true)} */>
+									 onClick={() => setOnEdit(true)} >
 									Edit Profile
 								</button>
 
@@ -49,7 +50,7 @@ const Infor = () => {
 						}
 					</div>
 
-					<div className="follow_btn">
+					<div className="follow_btn mb-2">
 						<span className="mr-4" /* onClick={() => setShowFollowers(true)} */>
 							{profile.user.followers.length} Followers
 						</span>
@@ -57,19 +58,22 @@ const Infor = () => {
 							{profile.user.following.length} Following
 						</span>
 					</div>
-					<h6 className="m-0">{profile.user.email}</h6>
-					<h6 className="m-0">{moment(profile.user.dob).format('DD/MM/YYYY')}</h6>
-					<p className="m-0">{profile.user.address}</p>
+					<h5 className="">{profile.user.email}</h5>
+					<h5 className="">{moment(profile.user.dob).format('DD/MM/YYYY')}</h5>
+					<h5 className="">{profile.user.address}</h5>
 					<a href={profile.user.website} target="_blank" rel="noreferrer">
                         {profile.user.website}
                     </a>
 				</div>
 
-{/* 				{
-					onEdit && <EditProfile setOnEdit={setOnEdit} />
+				{
+					onEdit && <EditProfile 
+						user={profile.user}
+						setOnEdit={setOnEdit} 
+					/>
 				}
 
-				{
+				{/* {
 					showFollowers &&
 					<Followers
 						users={user.followers}
