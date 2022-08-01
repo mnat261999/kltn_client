@@ -4,6 +4,7 @@ import notify from './notifyReducer'
 import profile from './profileReducer'
 import status from './statusReducer'
 import homePost from './postReducer'
+import modal from './modalReducer'
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
     notify,
     profile,
     status,
-    homePost
+    homePost, 
+    modal,
 })

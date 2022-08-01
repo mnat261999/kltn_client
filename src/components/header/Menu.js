@@ -14,7 +14,6 @@ const Menu = () => {
         { label: 'Discover', icon: 'explore', path: '/discover' },
         { label: 'Notify', icon: 'favorite', path: '/notify' }
     ]
-    console.log(auth)
 
     const isActive = (pn) => {
         if(pn === pathname) return 'active'

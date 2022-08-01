@@ -9,59 +9,56 @@ import FollowBtn from '../FollowBtn'
 
 const Infor = () => {
 	const { id } = useParams()
-	const auth = useSelector(state => state.auth)
+	const {auth, profile} = useSelector(state => state)
 	const dispatch = useDispatch()
-	const profile = useSelector(state => state.profile)
-	const [check, setCheck] = useState(false)
+	const [userData, setUserData] = useState([])
 
 	useEffect(() => {
-		dispatch(getProfileUsers({ id, auth }))
-		if (id === auth.user._id) {
-			setCheck(true)
-		} else {
-			setCheck(false)
+		console.log(auth)
+		if(id === auth.user._id){
+			setUserData([auth.user])
+		}else {
+			dispatch(getProfileUsers({users: profile.users, id, auth}))
+			const newData = profile.users.filter(user => user._id === id)
+            setUserData(newData)
 		}
-	}, [id, auth,dispatch])
-
-	/*   console.log(profile)
-    
-	  console.log(Object.keys(profile.user).length) */
-
-	if (Object.keys(profile.user).length === 0) return null;
+	}, [id, auth.user, dispatch, profile.users])
 
 	return (
 		<div className="info">
-			<div className="info_container" key={profile.user._id}>
-				{Object.keys(profile.user.avatar).length > 0 ? <AvatarCustom src={profile.user.avatar.url} size="supper-avatar" /> :  <Avatar size={150}>USER</Avatar>}
-				
+		<h2> INfo {id}</h2>
+		{
+		 userData.map(user => (
+			<div className="info_container" key={user._id}>
+			<AvatarCustom src={user.avatar.url} size="supper-avatar" />				
 
 				<div className="info_content">
 					<div className="info_content_title">
-						<h2 style={{fontSize:'20px', fontWeight:'bold'}}>{profile.user.fullname}<span style={{fontSize:'16px'}}> ({profile.user.username})</span></h2>
+						<h2 style={{fontSize:'20px', fontWeight:'bold'}}>{user.fullname}<span style={{fontSize:'16px'}}> ({user.username})</span></h2>
 						{
-							profile.user._id === auth.user._id
+							user._id === auth.user._id
 								? <button className="btn btn-outline-info"
 									/* onClick={() => setOnEdit(true)} */>
 									Edit Profile
 								</button>
 
-								:  <FollowBtn user={profile.user} />
+								:  <FollowBtn user={user} />
 						}
 					</div>
 
-					<div className="follow_btn">
+					<div className="follow_btn mb-2">
 						<span className="mr-4" /* onClick={() => setShowFollowers(true)} */>
-							{profile.user.followers.length} Followers
+							{user.followers.length} Followers
 						</span>
 						<span className="ml-4" /* onClick={() => setShowFollowing(true)} */>
-							{profile.user.following.length} Following
+							{user.following.length} Following
 						</span>
 					</div>
-					<h6 className="m-0">{profile.user.email}</h6>
-					<h6 className="m-0">{moment(profile.user.dob).format('DD/MM/YYYY')}</h6>
-					<p className="m-0">{profile.user.address}</p>
-					<a href={profile.user.website} target="_blank" rel="noreferrer">
-                        {profile.user.website}
+					<h6 className="m-0">{user.email}</h6>
+					<h6 className="m-0">{moment(user.dob).format('DD/MM/YYYY')}</h6>
+					<h6 className="m-0">{user.address}</h6>
+					<a href={user.website} target="_blank" rel="noreferrer">
+                        {user.website}
                     </a>
 				</div>
 
@@ -84,6 +81,8 @@ const Infor = () => {
 					/>
 				} */}
 			</div>
+		 )) 
+		}
 		</div>
 	)
 }

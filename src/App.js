@@ -15,7 +15,7 @@ import { getPosts } from './redux/actions/postAction';
 
 
 function App() {
-	const {auth, status} = useSelector(state => state)
+	const {auth, status, modal} = useSelector(state => state)
 
 	const dispatch = useDispatch()
 
@@ -33,7 +33,7 @@ function App() {
 			<Route exact path="/" component={auth.token ? "" : Login}/>
 			<Route exact path="/register" component={Register} />
 			<Route path="/activate/:activation_token" exact component={Activate} />
-			<div className="App">
+			<div className={`App ${(status || modal) && 'mode'}`}>
 				<div className="main">
 					{auth.token && <Header/>}
 					{status && <StatusModal />}

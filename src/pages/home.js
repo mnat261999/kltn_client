@@ -7,7 +7,6 @@ import LoadIcon from '../images/loading.gif'
 
 const Home = () => {
   const {homePost} = useSelector(state => state)
-  console.log(homePost.loading.loading)
   return (
     <div>
       <Row gutter={[48, 40]} >

@@ -70,3 +70,36 @@ export const getPosts = (token) => async (dispatch) => {
         console.log("getPosts", err);
     }
 }
+
+export const likePost = ({post, auth}) => async (dispatch) => {
+    const newPost = {...post, likes: [...post.likes, auth.user]}
+
+    try {
+        dispatch({ type: GLOBALTYPES.UPDATE_POST, payload: { loading: true } })
+        const res = await axios.patch(`api/post/like/${post._id}`,{
+            headers: { Authorization: auth.token },
+        })
+        showErrMsg("success", res.response.data.msg);
+
+    } catch (err) {
+        dispatch({type: GLOBALTYPES.ALERT, payload:  err.response.data.msg}) 
+        showErrMsg("error", err.response.data.msg);
+    }
+    
+}
+
+export const unLikePost = ({post, auth}) => async (dispatch) => {
+    const newPost = {...post, likes: [...post.likes.filter(like => like._id !== auth.user._id), auth.user]}
+    console.log(post._id)
+    try {
+        dispatch({ type: GLOBALTYPES.UPDATE_POST, payload: { loading: true } })
+        const res = await axios.patch(`api/post/unlike/${post._id}`,{
+            headers: { Authorization: auth.token },
+        })
+        showErrMsg("success", res.response.data.msg);
+
+    } catch (err) {
+        dispatch({type: GLOBALTYPES.ALERT, payload:  err.response.data.msg}) 
+        showErrMsg("error", err.response.data.msg);
+    }
+}

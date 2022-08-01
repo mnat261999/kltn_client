@@ -1,13 +1,48 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+import { likePost, unLikePost } from '../../../redux/actions/postAction'
+import LikeButton from '../../LikeButton'
 const CardFooter = ({ post }) => {
-    console.log(post)
+    const [ isLike, setIsLike] = useState(false)
+    const [ loadLike, setLoadLike] = useState(false)
+    const {auth} = useSelector(state => state)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(post.likes.find(like => like._id === auth.user._id)) {
+             setIsLike(true)
+        }
+    }, [post.likes, auth.user._id])
+
+    const handleLike = async () => {
+        if(loadLike) return;
+        setIsLike(true)
+        setLoadLike(true)
+        await dispatch(likePost({post, auth}))
+        setLoadLike(false)
+    }
+
+    const handleUnLike = async () => {
+        if(loadLike) return;
+        setIsLike(false)
+        setLoadLike(true)
+        await dispatch(unLikePost({post, auth}))
+        setLoadLike(false)
+    }
     return (
         <div className="card-body d-flex p-0">
-            <div className="emoji-bttn pointer d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2">
-                <i className="feather-heart text-white bg-red-gradiant me-2 btn-round-xs font-xss" />
-                {post.likes.length == 0 ? "" : `${post.likes.length} Like`}
+         
+             <div className="emoji-bttn pointer d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2">
+             <LikeButton
+                isLike={isLike}
+                handleLike= {handleLike}
+                handleUnLike= {handleUnLike}
+
+            />
+                
+                {post.likes.length === 0 ? "0 Like" : `${post.likes.length} Like`}
             </div>
             <div className="emoji-wrap pointer ">
                 <ul className="emojis list-inline mb-0">
