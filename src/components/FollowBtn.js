@@ -1,8 +1,9 @@
+import { Button } from 'antd'
 import React from 'react'
 
 const FollowBtn = ({user}) => {
   return (
-    <div>FollowBtn</div>
+    <Button shape='round' type='primary'>Follow</Button>
   )
 }
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getProfileUsers } from '../../redux/actions/profileAction'
-import { Avatar } from 'antd';
-import AvatarCustom from '../AvatarCustom'
-import moment from 'moment';
-import FollowBtn from '../FollowBtn'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getProfileUsers } from "../../redux/actions/profileAction";
+import { Avatar, Button } from "antd";
+import AvatarCustom from "../AvatarCustom";
+import moment from "moment";
+import FollowBtn from "../FollowBtn";
 
 const Infor = () => {
 	const { id } = useParams()
@@ -61,8 +61,7 @@ const Infor = () => {
                         {user.website}
                     </a>
 				</div>
-
-{/* 				{
+				        {/* 				{
 					onEdit && <EditProfile setOnEdit={setOnEdit} />
 				}
 
@@ -87,4 +86,4 @@ const Infor = () => {
 	)
 }
 
-export default Infor
+export default Infor;
