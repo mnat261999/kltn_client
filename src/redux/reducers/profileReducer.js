@@ -2,7 +2,7 @@ import { GLOBALTYPES } from "../actions/globalTypes"
 
 const initialState = {
     loading: false,
-    user: '',
+    users: [],
     posts: []
 }
 
@@ -17,7 +17,7 @@ const profileReducer = (state = initialState, action) =>{
             console.log(action.payload)
             return {
                 ...state,
-                user: action.payload
+                users: [...state.users, action.payload.user]
             };
         default:
             return state;  

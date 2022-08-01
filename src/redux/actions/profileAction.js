@@ -5,6 +5,7 @@ import { GLOBALTYPES } from "./globalTypes";
 
 export const getProfileUsers = ({ id, auth }) =>async dispatch => {
     if (id === auth.user._id) {
+
         try {
             dispatch({type: GLOBALTYPES.LOADING_PROFILE, payload: true})
             const res = await axios.get("api/user/login/infor",{
@@ -13,7 +14,7 @@ export const getProfileUsers = ({ id, auth }) =>async dispatch => {
 
             dispatch({
                 type: GLOBALTYPES.GET_USER,
-                payload: res.data.data
+                payload: res.data
             })
             dispatch({type: GLOBALTYPES.LOADING_PROFILE, payload: false})
         } catch (err) {
@@ -31,7 +32,7 @@ export const getProfileUsers = ({ id, auth }) =>async dispatch => {
 
             dispatch({
                 type: GLOBALTYPES.GET_USER,
-                payload: res.data.data[0]
+                payload: res.data.data
             })
             dispatch({type: GLOBALTYPES.LOADING_PROFILE, payload: false})
         } catch (err) {

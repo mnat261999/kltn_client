@@ -31,3 +31,21 @@
 @import url("././styles/avatar.css");
 /* -------- PROFILE ---------- */
  @import url("././styles/profile.css");
+ /* -------- HOME ---------- */
+ @import url("././styles/home.css");
+ /* -------- STATUS ---------- */
+ @import url("././styles/status_modal.css");
+
+ .ant-modal-title{
+  font-size: 17px !important;
+ }
+
+ .status_body textarea{
+  font-size: 13px !important;
+ }
+/* 
+ .mode{
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+ } */
