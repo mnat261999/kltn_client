@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Picker renders correctly and matches snapshot 1`] = `
+<div
+  className="sc-bdVaJa kLZsKl image-picker"
+>
+  <button
+    className="sc-EHOje ipFWQk close-picker"
+  >
+    ×
+  </button>
+  <input
+    autoCapitalize="none"
+    autoComplete="off"
+    autoCorrect="off"
+    className="sc-ifAKCX hnwFJm"
+    name="giphy-search"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Search for gifs"
+    type="text"
+    value=""
+  />
+  <div
+    className="sc-htpNat gHkuJL"
+  />
+</div>
+`;
